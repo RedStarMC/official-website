@@ -1,0 +1,30 @@
+/* src/assets/styles/reset.css */
+
+@import "tailwindcss";
+
+@theme {
+    --color-brand-red: #e53935;
+    --color-brand-yellow: #ffb300;
+    --color-brand-purple: #7e57c2;
+    --color-brand-dark: #1d1d1f;
+    --color-brand-bg: #e8e6f5;
+    --color-brand-pink: #f472b6;
+    --color-brand-green: #a8d5ba;
+    --color-brand-gold: #f2e8d5;
+    --color-brand-navy: #1a1a2e;
+    --color-brand-deep: #242442;
+    --color-brand-staff: #f478b7;
+    --color-brand-online: #4ade80;
+    --color-brand-card: #e9e7f3;
+    --color-brand-footer: #252726;
+    --color-brand-arch-bg: #003972;
+    --color-brand-arch-deep: #2d1b3d;
+    --color-brand-arch-top: #692823;
+
+    --font-bebas: 'Bebas Neue', cursive;
+    --font-outfit: 'Outfit', sans-serif;
+    --font-noto: 'Noto Sans SC', sans-serif;
+    --font-space: 'Space Grotesk', sans-serif;
+    --font-jetbrains: 'JetBrains Mono', monospace;
+    --font-inter: 'Inter', sans-serif;
+}
