@@ -7,8 +7,8 @@
     <!-- 顶部导航 -->
     <NavBar />
 
-    <!-- 服务器地址栏：右上角 -->
-    <div class="absolute right-[10px] top-[43px] z-20">
+    <!-- 服务器地址栏 -->
+    <div class="absolute right-[80px] top-[280px] z-20">
       <ServerAddressBar />
     </div>
 
@@ -18,43 +18,39 @@
       <span class="h-[10px] w-[10px] rounded-full border-2 border-white/60 bg-white/40"></span>
     </div>
 
-    <!-- 欢迎文字区：mt-120 ml-54 (512x302) -->
+    <!-- 欢迎文字区 -->
     <div class="absolute left-[54px] top-[120px] z-10 flex w-[512px] flex-col">
       <!-- 顶部装饰：红线 + 黄点 -->
-      <div class="flex items-center">
+      <div class="flex items-center gap-2">
         <span class="h-1 w-12 rounded-full bg-brand-red"></span>
-        <span class="ml-2 h-3 w-3 rounded-full bg-brand-yellow"></span>
+        <span class="h-3 w-3 rounded-full bg-brand-yellow"></span>
       </div>
 
-      <!-- 多色大标题：512x144 mt-18 -->
-      <div class="relative mt-[18px] flex h-[144px] w-[512px] items-center">
-        <!-- RED: 90x93, mt-61 z-0 -->
-        <span class="font-bebas text-[72px] leading-[108px] tracking-[2px] text-brand-red">RED</span>
-        <!-- 欢迎来到: 360x108 z-3 -->
-        <span class="font-bebas text-[72px] leading-[108px] tracking-[2px] text-white">欢迎来到</span>
-        <!-- STAR: 115x93 ml--270 mt-61 z-1 -->
-        <span class="-ml-[270px] font-bebas text-[72px] leading-[108px] tracking-[2px] text-white">STAR</span>
-        <!-- MC: 70x93 mt-61 z-2 -->
-        <span class="font-bebas text-[72px] leading-[108px] tracking-[2px] text-brand-yellow">MC</span>
+      <!-- 主标题：一行显示，不同颜色 -->
+      <div class="mt-[18px] flex flex-wrap items-center gap-x-3 font-bebas text-[72px] leading-[108px] tracking-[2px]">
+        <span class="text-white"> 欢 迎 来 到</span>
+        <span class="text-brand-red">RED</span>
+        <span class="text-brand-yellow">STAR</span>
+        <span class="text-white">MC</span>
       </div>
 
-      <!-- 描述段落 + 紫点 -->
-      <div class="mt-[18px] flex w-[464px] items-start">
-        <span class="font-noto text-[18px] leading-[28px] text-white/89">
+      <!-- 描述段落 + 紫色装饰点 -->
+      <div class="mt-[18px] flex items-start gap-2">
+        <p class="font-noto text-[18px] leading-[28px] text-white/89">
           一个充满活力的 Minecraft 社区，等待你的加入。在这<br />里，每一个方块都承载着无限可能，每一次冒险都是全<br />新故事的开始。
-        </span>
-        <span class="ml-2 mt-[38px] h-2 w-2 shrink-0 rounded-full bg-brand-purple"></span>
+        </p>
+        <span class="mt-[38px] h-2 w-2 shrink-0 rounded-full bg-brand-purple"></span>
       </div>
 
       <!-- 底部装饰：白线 + 黄点 -->
-      <div class="mt-[18px] flex items-center">
+      <div class="mt-[18px] flex items-center gap-2">
         <span class="h-[2px] w-16 rounded-full bg-white/30"></span>
-        <span class="ml-2 h-2 w-2 rounded-full bg-brand-yellow"></span>
+        <span class="h-2 w-2 rounded-full bg-brand-yellow"></span>
       </div>
     </div>
 
     <!-- 滚动提示：底部居中偏左 (ml-687) -->
-    <div class="absolute bottom-0 left-[687px] z-10">
+    <div class="absolute bottom-10 left-1/2 z-10 -translate-x-1/2">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
 
