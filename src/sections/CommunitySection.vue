@@ -95,7 +95,7 @@
           <!-- 基岩版 -->
           <div class="flex flex-wrap items-center gap-2">
             <img :src="bedrockIcon" alt="bedrock" class="shrink-0" style="width: clamp(16px, 1.39vw, 20px); height: clamp(16px, 1.39vw, 20px);" />
-            <span class="font-noto text-white/50 whitespace-nowrap" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem); letter-spacing: 0.36em;">基岩版 IP : 端口</span>
+            <span class="font-noto text-white/50 whitespace-nowrap" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem); letter-spacing: 0.36em;">基岩版 IP</span>
             <button
                 class="rounded-lg bg-brand-red font-outfit font-bold text-white whitespace-nowrap"
                 style="font-size: clamp(0.625rem, 0.97vw, 0.875rem); letter-spacing: 0.36em; padding: clamp(4px, 0.28vw, 6px) clamp(8px, 0.56vw, 11px);"
@@ -201,7 +201,7 @@
         <a
             v-for="link in quickLinks"
             :key="link.label"
-            href="#"
+            :href="link.link"
             class="flex flex-col items-center rounded-xl border border-white/15 bg-white/7 transition hover:bg-white/12"
             style="width: 17.75%; padding: clamp(6px, 0.42vw, 8px);"
         >
@@ -247,11 +247,11 @@ const newsItems = ref([
 ])
 
 const quickLinks = [
-  { label: '加入QQ群', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902103749/0f60/43ef/ea99/b3213bc694412ed3aaaf552b3d83bb93.png' },
-  { label: 'B站账号', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902106147/08ef/8283/9df1/3701abda014b522596149a9b42b0c292.png' },
-  { label: 'MC百科宣传页', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902106195/6956/d432/fedf/c95b6cc1d471b6aa8983489d93fb0c04.png' },
-  { label: 'GitHub组织页', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80911273527/0239/84e2/f645/1eb61d4a16ec100f82e5617000a5d2b4.png' },
-  { label: '加入管理组', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902105700/ef9c/57bc/635b/c80e959cc093887798d0b33cc891c092.png' },
+  { label: '加入QQ群', link: 'https://qm.qq.com/q/7heTMqbyik', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902103749/0f60/43ef/ea99/b3213bc694412ed3aaaf552b3d83bb93.png' },
+  { label: 'B站账号', link: 'https://space.bilibili.com/3494364688943203', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902106147/08ef/8283/9df1/3701abda014b522596149a9b42b0c292.png' },
+  { label: 'MC百科宣传页', link: 'https://play.mcmod.cn/sv20186194.html', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902106195/6956/d432/fedf/c95b6cc1d471b6aa8983489d93fb0c04.png' },
+  { label: 'GitHub组织页', link: 'https://github.com/RedStarMC', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80911273527/0239/84e2/f645/1eb61d4a16ec100f82e5617000a5d2b4.png' },
+  { label: '加入管理组', link: 'https://wiki.redstarmc.top/admin/join', iconSrc: 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902105700/ef9c/57bc/635b/c80e959cc093887798d0b33cc891c092.png' },
 ]
 
 async function copyToClipboard(text: string) {
