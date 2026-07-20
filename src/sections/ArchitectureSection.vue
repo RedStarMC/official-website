@@ -1,90 +1,163 @@
 <template>
   <section
-    id="architecture"
-    class="relative h-[1024px] w-[1440px] overflow-hidden"
-    :style="{ background: 'linear-gradient(180deg, #1a1a2e 0%, #003972 77.86%, #003972 100%)' }"
+      id="architecture"
+      class="relative flex h-screen w-full min-w-[320px] flex-col overflow-hidden"
+      :style="{ background: 'linear-gradient(180deg, #1a1a2e 0%, #003972 77.86%, #003972 100%)' }"
   >
-    <!-- 背景大图：1663x1616 mt--631 ml--597 -->
+    <!-- 背景大图 -->
     <img
-      :src="bgImage"
-      alt=""
-      class="pointer-events-none absolute left-[-597px] top-[-631px] h-[1616px] w-[1663px] object-cover"
+        :src="bgImage"
+        alt=""
+        class="pointer-events-none absolute object-cover"
+        :style="{
+        left: '-41.46%',
+        top: '-61.62%',
+        width: '115.49%',
+        height: '157.81%',
+      }"
     />
 
-    <!-- 头部：mt-29 ml-48 1398x93 -->
-    <div class="absolute left-[48px] top-[29px] z-10 w-[1398px]">
-      <!-- 标题行 -->
-      <div class="flex h-16 items-center">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-brand-purple/20">
-          <img :src="headerIcon" alt="arch" class="h-6 w-6" />
+    <!-- 头部 -->
+    <div class="absolute z-10" style="left: 3.33%; top: 2.83%; width: 97.08%;">
+      <div class="flex items-center" style="height: clamp(48px, 4.44vh, 64px);">
+        <!-- 图标容器 -->
+        <div
+            class="flex items-center justify-center rounded-xl border border-white/20 bg-brand-purple/20"
+            style="width: clamp(32px, 3.33vw, 48px); height: clamp(32px, 3.33vw, 48px);"
+        >
+          <img :src="headerIcon" alt="arch" style="width: clamp(16px, 1.67vw, 24px); height: clamp(16px, 1.67vw, 24px);" />
         </div>
-        <div class="ml-4 flex flex-col">
-          <span class="font-space text-4xl font-bold leading-10 tracking-[-1px] text-brand-gold">服务器架构</span>
-          <span class="mt-1 font-jetbrains text-sm leading-5 tracking-[1px] text-brand-purple/60">SERVER ARCHITECTURE / TOPOLOGY</span>
+        <!-- 标题 + 副标题 -->
+        <div class="flex flex-col" style="margin-left: clamp(12px, 1.11vw, 16px);">
+          <span
+              class="font-space font-bold text-brand-gold whitespace-nowrap"
+              style="font-size: clamp(1.5rem, 2.5vw, 2.25rem); line-height: clamp(2rem, 3.47vh, 2.5rem); letter-spacing: -0.03em;"
+          >
+            服务器架构
+          </span>
+          <span
+              class="font-jetbrains text-brand-purple/60 whitespace-nowrap"
+              style="font-size: clamp(0.75rem, 0.97vw, 0.875rem); line-height: clamp(1rem, 1.39vh, 1.25rem); letter-spacing: 0.07em; margin-top: clamp(2px, 0.14vw, 4px);"
+          >
+            SERVER ARCHITECTURE / TOPOLOGY
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- 图例：mt-0 ml-346(相对 header) -->
-    <div class="absolute left-[394px] top-[122px] z-10 flex w-[288px] flex-col">
-      <div class="flex h-[43px] items-center gap-2">
-        <span class="h-3 w-2.5 rounded-full bg-[#e63946]"></span>
+    <!-- 图例 -->
+    <div class="absolute z-10 flex flex-col" style="left: 75%; top: 12%; width: 20%;">
+      <!-- 不可访问 -->
+      <div class="flex items-center gap-2" style="height: clamp(28px, 2.95vh, 43px);">
+        <span class="rounded-full bg-[#e63946] shrink-0" style="width: clamp(7px, 0.49vw, 10px); height: clamp(8px, 0.83vw, 12px);"></span>
         <div class="flex flex-col">
-          <span class="font-inter text-sm leading-5 tracking-[5px] text-brand-gold/80">不可访问</span>
-          <span class="mt-1 font-inter text-[11px] leading-4 tracking-[5px] text-brand-gold/40">需联系管理组，平常不开</span>
+          <span
+              class="font-inter text-brand-gold/80 whitespace-nowrap"
+              style="font-size: clamp(0.75rem, 0.97vw, 0.875rem); line-height: 1.25; letter-spacing: 0.36em;"
+          >
+            不可访问
+          </span>
+          <span
+              class="font-inter text-brand-gold/40 whitespace-nowrap"
+              style="font-size: clamp(0.625rem, 0.76vw, 0.6875rem); line-height: 1.27; letter-spacing: 0.45em; margin-top: clamp(2px, 0.14vw, 4px);"
+          >
+            需联系管理组，平常不开
+          </span>
         </div>
       </div>
-      <div class="flex h-[43px] items-center gap-2">
-        <span class="h-3 w-2.5 rounded-full bg-[#6b7280]"></span>
+      <!-- 已归档 -->
+      <div class="flex items-center gap-2" style="height: clamp(28px, 2.95vh, 43px);">
+        <span class="rounded-full bg-[#6b7280] shrink-0" style="width: clamp(7px, 0.49vw, 10px); height: clamp(8px, 0.83vw, 12px);"></span>
         <div class="flex flex-col">
-          <span class="font-inter text-sm leading-5 tracking-[5px] text-brand-gold/80">已归档</span>
-          <span class="mt-1 font-inter text-[11px] leading-4 tracking-[5px] text-brand-gold/40">仅此服老玩家可以进入</span>
+          <span
+              class="font-inter text-brand-gold/80 whitespace-nowrap"
+              style="font-size: clamp(0.75rem, 0.97vw, 0.875rem); line-height: 1.25; letter-spacing: 0.36em;"
+          >
+            已归档
+          </span>
+          <span
+              class="font-inter text-brand-gold/40 whitespace-nowrap"
+              style="font-size: clamp(0.625rem, 0.76vw, 0.6875rem); line-height: 1.27; letter-spacing: 0.45em; margin-top: clamp(2px, 0.14vw, 4px);"
+          >
+            仅此服老玩家可以进入
+          </span>
         </div>
       </div>
-      <div class="flex h-[42px] items-center gap-2">
-        <span class="h-[11px] w-2.5 rounded-full bg-brand-green"></span>
+      <!-- 在线 -->
+      <div class="flex items-center gap-2" style="height: clamp(28px, 2.88vh, 42px);">
+        <span class="rounded-full bg-brand-green shrink-0" style="width: clamp(7px, 0.49vw, 10px); height: clamp(8px, 0.76vw, 11px);"></span>
         <div class="flex flex-col">
-          <span class="font-inter text-sm leading-5 tracking-[5px] text-brand-gold/80">在线</span>
-          <span class="mt-1 font-inter text-[11px] leading-4 tracking-[5px] text-brand-gold/40">服务器正常运行，可直接进入</span>
+          <span
+              class="font-inter text-brand-gold/80 whitespace-nowrap"
+              style="font-size: clamp(0.75rem, 0.97vw, 0.875rem); line-height: 1.25; letter-spacing: 0.36em;"
+          >
+            在线
+          </span>
+          <span
+              class="font-inter text-brand-gold/40 whitespace-nowrap"
+              style="font-size: clamp(0.625rem, 0.76vw, 0.6875rem); line-height: 1.27; letter-spacing: 0.45em; margin-top: clamp(2px, 0.14vw, 4px);"
+          >
+            服务器正常运行，可直接进入
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- 6 张子服卡片：基于原始绝对定位 -->
-    <!-- 登录服：mt--46 ml-530 (z-0) -->
-    <div class="absolute left-[530px] top-[76px] z-[0]">
-      <ServerCard name="登录服" id="login" role="用于账号管理和反压测的服务器" :port="1234" show-port status="offline" :status-icon-src="loginIcon" />
+    <!-- 6 张子服卡片 -->
+    <!-- 登录服 -->
+    <div class="absolute z-0" style="left: 40%; top: 8%; width: clamp(180px, 20vw, 288px);">
+      <ServerCard name="登录服" id="login" role="用于账号管理和反压测的服务器" :port="1234" show-port status="offline" :status-icon-src="loginIcon" style="width: 100%" />
     </div>
-    <!-- 主城服：mt--4 ml-593 (z-1) -->
-    <div class="absolute left-[593px] top-[118px] z-[1]">
-      <ServerCard name="主城服" id="hub" role="跳转各子服的中转站" :port="25565" show-port status="online" :status-icon-src="hubIcon" />
+    <!-- 主城服 -->
+    <div class="absolute z-1" style="left: 40%; top: 35%; width: clamp(180px, 20vw, 288px);">
+      <ServerCard name="主城服" id="hub" role="跳转各子服的中转站" :port="25565" show-port status="online" :status-icon-src="hubIcon" style="width: 100%" />
     </div>
-    <!-- 生存服：mt--5 ml-73 (z-4) -->
-    <div class="absolute left-[73px] top-[117px] z-[4]">
-      <ServerCard name="生存服" id="survival" role="原版生存 1.20.x" :port="25566" show-port status="online" :status-icon-src="survivalIcon" />
+    <!-- 生存服 -->
+    <div class="absolute z-4" style="left: 5%; top: 60%; width: clamp(180px, 20vw, 288px);">
+      <ServerCard name="生存服" id="survival" role="原版生存 1.20.x" :port="25566" show-port status="online" :status-icon-src="survivalIcon" style="width: 100%" />
     </div>
-    <!-- 创造服：mt--6 ml-428 (z-7) -->
-    <div class="absolute left-[428px] top-[116px] z-[7]">
-      <ServerCard name="创造服" id="creative" role="无限创造 建筑孵化" :port="25567" show-port status="online" :status-icon-src="creativeIcon" />
+    <!-- 创造服 -->
+    <div class="absolute z-7" style="left: 30%; top: 60%; width: clamp(180px, 20vw, 288px);">
+      <ServerCard name="创造服" id="creative" role="无限创造 建筑孵化" :port="25567" show-port status="online" :status-icon-src="creativeIcon" style="width: 100%" />
     </div>
-    <!-- 小游戏服：mt--6 ml-776 (z-8) -->
-    <div class="absolute left-[776px] top-[116px] z-[8]">
-      <ServerCard name="小游戏服" id="minigame" role="内含数十款自制小游戏" :port="25568" show-port status="online" :status-icon-src="minigameIcon" />
+    <!-- 小游戏服 -->
+    <div class="absolute z-8" style="left: 53.89%; top: 60%; width: clamp(180px, 20vw, 288px);">
+      <ServerCard name="小游戏服" id="minigame" role="内含数十款自制小游戏" :port="25568" show-port status="online" :status-icon-src="minigameIcon" style="width: 100%" />
     </div>
-    <!-- 归档服：mt--6 ml-1105 (z-9) -->
-    <div class="absolute left-[1105px] top-[116px] z-[9]">
-      <ServerCard name="归档服" id="archived" role="老玩家可以进入" :port="25569" show-port status="archived" :status-icon-src="archivedIcon" />
+    <!-- 归档服 -->
+    <div class="absolute z-9" style="left: 76.74%; top: 60%; width: clamp(180px, 20vw, 288px);">
+      <ServerCard name="归档服" id="archived" role="老玩家可以进入" :port="25569" show-port status="archived" :status-icon-src="archivedIcon" style="width: 100%" />
     </div>
 
-    <!-- 连接线图片（保留位置，原始中是装饰图） -->
-    <img :src="connector1" alt="" class="pointer-events-none absolute left-[670px] top-[279px] z-[5] h-[60px] w-[73px]" />
-    <img :src="connector2" alt="" class="pointer-events-none absolute left-[252px] top-[274px] z-[17] h-[116px] w-[536px]" />
-    <img :src="connector3" alt="" class="pointer-events-none absolute left-[614px] top-[351px] z-[3] h-[169px] w-[174px]" />
-    <img :src="connector4" alt="" class="pointer-events-none absolute left-[784px] top-[405px] z-[18] h-[153px] w-[181px]" />
-    <img :src="connector5" alt="" class="pointer-events-none absolute left-[785px] top-[347px] z-[2] h-[100px] w-[515px]" />
+    <!-- 连接线装饰图 -->
+    <img
+        :src="connector1" alt=""
+        class="pointer-events-none absolute z-5"
+        :style="{ left: '46.53%', top: '27.25%', width: '5.07%', aspectRatio: '73 / 60' }"
+    />
+    <img
+        :src="connector2" alt=""
+        class="pointer-events-none absolute z-17"
+        :style="{ left: '17.5%', top: '26.76%', width: '37.22%', aspectRatio: '536 / 116' }"
+    />
+    <img
+        :src="connector3" alt=""
+        class="pointer-events-none absolute z-3"
+        :style="{ left: '42.64%', top: '34.28%', width: '12.08%', aspectRatio: '174 / 169' }"
+    />
+    <img
+        :src="connector4" alt=""
+        class="pointer-events-none absolute z-18"
+        :style="{ left: '54.44%', top: '39.55%', width: '12.57%', aspectRatio: '181 / 153' }"
+    />
+    <img
+        :src="connector5" alt=""
+        class="pointer-events-none absolute z-2"
+        :style="{ left: '54.51%', top: '33.89%', width: '35.76%', aspectRatio: '515 / 100' }"
+    />
 
-    <!-- 滚动提示：mt-67 ml-687 -->
-    <div class="absolute bottom-[0px] left-[687px] z-10">
+    <!-- 滚动提示 -->
+    <div class="absolute z-10" style="left: 47.71%; bottom: 5vh;">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
   </section>

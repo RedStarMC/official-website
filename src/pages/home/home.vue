@@ -1,13 +1,10 @@
 <template>
-  <div class="relative w-full overflow-x-auto overflow-y-hidden bg-white">
-    <div class="relative mx-auto" :style="{ width: DESIGN_WIDTH + 'px' }">
-      <HeroSection />
-      <CommunitySection/>
-      <ArchitectureSection/>
-      <StaffSection/>
-      <FooterSection/>
-
-    </div>
+  <div class="w-full bg-white">
+    <HeroSection />
+    <CommunitySection />
+    <ArchitectureSection />
+    <StaffSection />
+    <FooterSection />
   </div>
 </template>
 
@@ -17,16 +14,17 @@ import CommunitySection from '../../sections/CommunitySection.vue'
 import ArchitectureSection from '../../sections/ArchitectureSection.vue'
 import StaffSection from '../../sections/StaffSection.vue'
 import FooterSection from '../../sections/FooterSection.vue'
-
-
-// 原始设计稿宽度（来自原始.html .music_2_0）
-const DESIGN_WIDTH = 1440
 </script>
-html, body, #app {
-margin: 0;
-padding: 0;
-width: 100%;
-height: 100%;
-overflow: hidden;
+
+<style>
+/* 全局重置 — 必须放在 <style> 标签内 */
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
+</style>
+
 <style scoped></style>
