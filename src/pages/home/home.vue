@@ -1,6 +1,7 @@
 <template>
   <div class="w-full bg-white">
-    <NavBar :active-id="sections[currentSection]" @navigate="scrollToSection" />
+    <NavBar :active-id="navActiveId" @navigate="scrollToSection" />
+
 
 <!---->
     <!-- 全局唯一的页面指示点 -->
@@ -44,7 +45,7 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import NavBar from '../../components/NavBar.vue'
 import PageIndicator from '../../components/PageIndicator.vue'
 import HeroSection from '../../sections/HeroSection.vue'
@@ -57,6 +58,14 @@ const containerRef = ref<HTMLElement | null>(null)
 const currentSection = ref(0)
 const sections = ['hero', 'community', 'architecture', 'staff', 'footer']
 const isScrolling = ref(false)
+
+// 把当前 section 的 id 算出来给导航栏用
+// footer 区域在导航里不存在，所以映射为 staff
+const navActiveId = computed(() => {
+  const id = sections[currentSection.value]
+  return id === 'footer' ? 'staff' : id
+})
+
 const SCROLL_COOLDOWN = 300 // ms，缩短冷却时间
 
 // 计算某 section 在 container 内的 scrollTop
@@ -183,11 +192,11 @@ onMounted(() => {
   }
   window.addEventListener('keydown', handleKeydown)
 
-  observer = new IntersectionObserver(observerCallback, {
-    root: container,
-    rootMargin: '-30% 0px -30% 0px', // 稍微放宽触发区域
-    threshold: 0,
-  })
+   observer = new IntersectionObserver(observerCallback, {
+     root: container,
+     rootMargin: '-40% 0px -40% 0px',
+     threshold: 0,
+   })
 
   sections.forEach((id) => {
     const el = document.getElementById(id)

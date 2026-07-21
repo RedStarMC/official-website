@@ -86,19 +86,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-
 interface NavItem {
   label: string
   id: string
 }
 
-const navItems = ref<NavItem[]>([
+defineProps<{ activeId: string }>()
+
+const navItems: NavItem[] = [
   { label: '首页', id: 'hero' },
   { label: '详情', id: 'community' },
   { label: '架构', id: 'architecture' },
   { label: '管理组', id: 'staff' },
-])
+]
 
 const iconButtons = [
   {
@@ -111,8 +111,6 @@ const iconButtons = [
   },
 ]
 
-const activeId = ref('hero')
-
 const emit = defineEmits<{
   navigate: [index: number]
 }>()
@@ -120,37 +118,8 @@ const emit = defineEmits<{
 function handleNavClick(index: number) {
   emit('navigate', index)
 }
-
-const observerCallback = (entries: IntersectionObserverEntry[]) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      activeId.value = entry.target.id === 'footer' ? 'staff' : entry.target.id
-    }
-  })
-}
-
-let observer: IntersectionObserver | null = null
-
-onMounted(() => {
-  observer = new IntersectionObserver(observerCallback, {
-    root: null,
-    rootMargin: '-40% 0px -40% 0px',
-    threshold: 0,
-  })
-
-  navItems.value.forEach((item) => {
-    const el = document.getElementById(item.id)
-    if (el) observer?.observe(el)
-  })
-
-  const footerEl = document.getElementById('footer')
-  if (footerEl) observer?.observe(footerEl)
-})
-
-onUnmounted(() => {
-  observer?.disconnect()
-})
 </script>
+
 
 <style scoped>
 @keyframes navItemFadeIn {

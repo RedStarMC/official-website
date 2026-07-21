@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
 
 interface Section {
   id: string
@@ -41,87 +41,20 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:currentIndex': [index: number]
   navigate: [index: number]
 }>()
 
-// 双向绑定 currentIndex
-const current = computed({
-  get: () => props.currentIndex,
-  set: (val) => emit('update:currentIndex', val),
-})
-
 const safeCurrentIndex = computed(() => {
-  const index = Number(current.value)
+  const index = Number(props.currentIndex)
   return Number.isNaN(index) ? 0 : Math.max(0, Math.min(index, sections.length - 1))
 })
 
-// 滚动锁：true 表示正在手动滚动，Observer 暂不更新
-const isScrolling = ref(false)
-let scrollLockTimer: ReturnType<typeof setTimeout> | null = null
-
-let observer: IntersectionObserver | null = null
-
 function handleClick(index: number) {
   if (index === safeCurrentIndex.value) return
-
-  const target = document.querySelector(`#${sections[index].id}`)
-  const currentEl = document.querySelector(`#${sections[safeCurrentIndex.value].id}`)
-  if (!target || !currentEl) return
-
-  const distance = Math.abs(
-    target.getBoundingClientRect().top - currentEl.getBoundingClientRect().top
-  )
-  const duration = Math.min(Math.max(distance / 2, 600), 1500)
-
-  isScrolling.value = true
-  if (scrollLockTimer) clearTimeout(scrollLockTimer)
-
-  current.value = index
   emit('navigate', index)
-
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
-  scrollLockTimer = setTimeout(() => {
-    isScrolling.value = false
-  }, duration)
 }
-
-
-onMounted(() => {
-  observer = new IntersectionObserver(
-    (entries) => {
-      // 手动滚动期间忽略 Observer
-      if (isScrolling.value) return
-
-      const visible = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-
-      if (!visible) return
-
-      const index = sections.findIndex((s) => s.id === visible.target.id)
-      if (index !== -1 && index !== current.value) {
-        current.value = index
-      }
-    },
-    {
-      root: null,
-      threshold: 0.5,
-    }
-  )
-
-  sections.forEach((section) => {
-    const el = document.querySelector(`#${section.id}`)
-    if (el) observer?.observe(el)
-  })
-})
-
-onUnmounted(() => {
-  observer?.disconnect()
-  if (scrollLockTimer) clearTimeout(scrollLockTimer)
-})
 </script>
+
 
 <style scoped>
 @keyframes slideInFromRight {
