@@ -4,9 +4,9 @@
     class="relative flex h-screen w-full min-w-[320px] flex-col overflow-hidden bg-cover bg-center bg-no-repeat"
     :style="{ backgroundImage: `url(${heroBg})` }"
   >
-    <!-- 服务器地址栏：从右滑入 -->
+    <!-- 服务器地址栏：从右滑入 / 向右滑出 -->
     <div
-      class="animate-slide-right absolute right-[3.33%] top-[15.82%] z-20"
+      :class="['absolute right-[3.33%] top-[15.82%] z-20', addressAnim]"
       style="width: clamp(280px, 33.33vw, 480px)"
     >
       <ServerAddressBar
@@ -16,18 +16,16 @@
       />
     </div>
 <!---->
-    <!-- 欢迎文字区：左下，从左向右浮入 -->
+    <!-- 欢迎文字区：从左向右浮入 / 向左滑出 / 从左滑入 -->
     <div
-      class="animate-float-left absolute left-[4%] bottom-[14%] z-10 flex flex-col"
+      :class="['absolute left-[4%] bottom-[10%] z-10 flex flex-col', welcomeAnim]"
       style="width: 33%"
     >
-      <!-- 顶部装饰：红线 + 黄点 -->
       <div class="flex items-center gap-2">
         <span class="h-[4px] w-[clamp(32px,3.33vw,56px)] rounded-full bg-brand-red"></span>
         <span class="h-3 w-3 rounded-full bg-brand-yellow"></span>
       </div>
 <!---->
-      <!-- 主标题 -->
       <div class="flex flex-col leading-[1.1] tracking-[2px]" style="margin-top: 2.5vw">
         <span
           class="font-noto font-bold text-white"
@@ -42,7 +40,6 @@
         </div>
       </div>
 <!---->
-      <!-- 描述段落 + 紫色装饰点 -->
       <div class="flex items-start gap-2" style="margin-top: 1vw">
         <p
           class="font-noto leading-[1.56] text-white/89"
@@ -53,27 +50,29 @@
         <span class="h-2 w-2 shrink-0 rounded-full bg-brand-purple" style="margin-top: 2.64vw"></span>
       </div>
 <!---->
-      <!-- 底部装饰：白线 + 黄点 -->
       <div class="flex items-center gap-2" style="margin-top: 2.5vw">
         <span class="h-[2px] w-[clamp(40px,4.44vw,72px)] rounded-full bg-white/30"></span>
         <span class="h-2 w-2 rounded-full bg-brand-yellow"></span>
       </div>
     </div>
 <!---->
-    <!-- 滚动提示：循环上下浮动 -->
+    <!-- 滚动提示 -->
     <div
-      class="animate-bounce-loop absolute bottom-[5vh] left-1/2 z-40 -translate-x-1/2 cursor-pointer"
+      class="absolute bottom-[3vh] left-0 z-40 w-full"
+      :class="scrollAnim"
       @click="emit('next')"
     >
-      <ScrollIndicator :icon-src="scrollIcon" />
+      <div class="flex w-full justify-center">
+        <ScrollIndicator :icon-src="scrollIcon" />
+      </div>
     </div>
+
 <!---->
-    <!-- 标签浮层：右下 -->
+    <!-- 标签浮层 -->
     <div
-      class="absolute right-[20%] bottom-[5%] z-[5]"
+      class="absolute right-[20%] bottom-[0.1%] z-[5]"
       style="width: 24%; max-width: 360px"
     >
-      <!-- 星型装饰：作为背景，不参与动画 -->
       <img
         :src="tagsDeco"
         alt=""
@@ -81,19 +80,17 @@
         :style="{ aspectRatio: '1189 / 1169' }"
       />
 <!---->
-      <!-- 背景图容器 -->
       <div
         class="relative z-10 w-[91.18%] bg-cover bg-center"
         :style="{ backgroundImage: `url(${tagsBg})`, aspectRatio: '1230 / 1209' }"
       >
-        <!-- 标签行 -->
         <div
           class="absolute left-[16.26%] top-[50.46%] flex gap-[clamp(24px,3.54vw,60px)]"
         >
           <div
             v-for="(tag, i) in tags"
             :key="tag.label"
-            class="animate-tag-pop flex items-center rounded-full border border-l border-r-0 border-white/20 bg-black/50"
+            :class="['flex items-center rounded-full border border-l border-r-0 border-white/20 bg-black/50', tagsAnim]"
             :style="{
               height: 'clamp(28px, 2.64vw, 42px)',
               width: 'clamp(72px, 6.94vw, 110px)',
@@ -127,11 +124,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import ServerAddressBar from '../components/ServerAddressBar.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
-defineProps<{
+const props = defineProps<{
   currentIndex: number
 }>()
 
@@ -139,6 +136,52 @@ const emit = defineEmits<{
   next: []
   navigate: [index: number]
 }>()
+
+// initial: 首次开屏 | enter: 从其它页回到首页 | leave: 从首页离开 | idle: 其它情况
+type HeroMode = 'initial' | 'enter' | 'leave' | 'idle'
+const mode = ref<HeroMode>('initial')
+
+onMounted(() => {
+  mode.value = props.currentIndex === 0 ? 'initial' : 'idle'
+})
+
+watch(
+  () => props.currentIndex,
+  (now, prev) => {
+    if (now === 0) {
+      mode.value = prev === 0 || prev === undefined ? 'initial' : 'enter'
+    } else if (prev === 0) {
+      mode.value = 'leave'
+    } else {
+      mode.value = 'idle'
+    }
+  }
+)
+
+const addressAnim = computed(() => {
+  if (mode.value === 'leave') return 'animate-slide-out-right'
+  if (mode.value === 'enter') return 'animate-slide-in-right'
+  return 'animate-slide-right'
+})
+
+const welcomeAnim = computed(() => {
+  if (mode.value === 'leave') return 'animate-slide-out-left'
+  if (mode.value === 'enter') return 'animate-slide-in-left'
+  return 'animate-float-left'
+})
+
+const tagsAnim = computed(() => {
+  if (mode.value === 'leave') return 'animate-tag-fade-out'
+  if (mode.value === 'enter') return 'animate-tag-pop'
+  return 'animate-tag-pop'
+})
+
+const scrollAnim = computed(() => {
+  if (mode.value === 'leave') return 'animate-fade-out'
+  // 首次进入、切回首页、正常显示时都保持循环浮动
+  return 'animate-bounce-loop'
+})
+
 
 const heroBg =
   'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902100193/905e/079a/3143/9b5f2d60778e05a5b5a6b8c674770695.png'
@@ -182,7 +225,7 @@ const tags = ref([
 </script>
 
 <style scoped>
-/* 欢迎文字区：从左向右浮入 */
+/* ===== 原有动画 ===== */
 @keyframes floatFromLeft {
   from {
     opacity: 0;
@@ -194,7 +237,6 @@ const tags = ref([
   }
 }
 
-/* 标签：从下向上弹出 */
 @keyframes tagPop {
   from {
     opacity: 0;
@@ -206,7 +248,6 @@ const tags = ref([
   }
 }
 
-/* 服务器地址框：从右至左滑入 + 轻微回弹 */
 @keyframes slideFromRight {
   from {
     opacity: 0;
@@ -221,17 +262,93 @@ const tags = ref([
   }
 }
 
-/* 向下滚动提示：循环上下浮动 */
 @keyframes bounceLoop {
   0%,
   100% {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
   50% {
-    transform: translateX(-50%) translateY(-12px);
+    transform: translateY(-12px);
   }
 }
 
+
+
+/* ===== 新增：滑出 / 滑入动画 ===== */
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-120px);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-120px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tagFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== 动画类 ===== */
 .animate-float-left {
   animation: floatFromLeft 0.8s ease-out both;
 }
@@ -246,5 +363,35 @@ const tags = ref([
 
 .animate-bounce-loop {
   animation: bounceLoop 1.5s ease-in-out infinite;
+}
+
+/* 滑出 */
+.animate-slide-out-right {
+  animation: slideOutRight 0.5s ease-in forwards;
+}
+
+.animate-slide-out-left {
+  animation: slideOutLeft 0.5s ease-in forwards;
+}
+
+.animate-tag-fade-out {
+  animation: tagFadeOut 0.4s ease-in forwards;
+}
+
+/* 滑入 */
+.animate-slide-in-right {
+  animation: slideInRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.4s ease-in forwards;
 }
 </style>

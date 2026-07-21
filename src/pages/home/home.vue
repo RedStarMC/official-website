@@ -5,9 +5,9 @@
     <!-- 全局唯一的页面指示点 -->
     <PageIndicator
       :current-index="currentSection"
-      class="fixed right-[2.78%] top-1/2 -translate-y-1/2 z-50"
       @navigate="scrollToSection"
     />
+
 <!---->
     <main ref="containerRef" class="snap-container">
       <HeroSection
