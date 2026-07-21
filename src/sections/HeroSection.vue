@@ -4,9 +4,9 @@
     class="relative flex h-screen w-full min-w-[320px] flex-col overflow-hidden bg-cover bg-center bg-no-repeat"
     :style="{ backgroundImage: `url(${heroBg})` }"
   >
-    <!-- 服务器地址栏 -->
+    <!-- 服务器地址栏：从右滑入 -->
     <div
-      class="absolute right-[3.33%] top-[15.82%] z-20"
+      class="animate-slide-right absolute right-[3.33%] top-[15.82%] z-20"
       style="width: clamp(280px, 33.33vw, 480px)"
     >
       <ServerAddressBar
@@ -15,65 +15,75 @@
         style="width: 100%"
       />
     </div>
-
 <!---->
-    <!-- 欢迎文字区：左下，位置优化 -->
-    <div class="absolute left-[4%] bottom-[14%] z-10 flex flex-col" style="width: 33%;">
-  <!-- 顶部装饰：红线 + 黄点 -->
-  <div class="flex items-center gap-2">
-    <span class="h-[4px] w-[clamp(32px,3.33vw,56px)] rounded-full bg-brand-red"></span>
-    <span class="h-3 w-3 rounded-full bg-brand-yellow"></span>
-  </div>
-
-  <!-- 主标题：欢迎来到 + REDSTARMC -->
-  <div class="flex flex-col leading-[1.1] tracking-[2px]" style="margin-top: 2.5vw;">
-    <span
-      class="font-noto font-bold text-white"
-      style="font-size: clamp(1.5rem, 3vw, 2.5rem)"
-    >
-      欢迎来到
-    </span>
+    <!-- 欢迎文字区：左下，从左向右浮入 -->
     <div
-      class="font-bebas"
-      style="font-size: clamp(2.5rem, 6vw, 5rem)"
+      class="animate-float-left absolute left-[4%] bottom-[14%] z-10 flex flex-col"
+      style="width: 33%"
     >
-      <span class="text-brand-red">RED</span>
-      <span class="text-white">STAR</span>
-      <span class="text-brand-yellow">MC</span>
+      <!-- 顶部装饰：红线 + 黄点 -->
+      <div class="flex items-center gap-2">
+        <span class="h-[4px] w-[clamp(32px,3.33vw,56px)] rounded-full bg-brand-red"></span>
+        <span class="h-3 w-3 rounded-full bg-brand-yellow"></span>
+      </div>
+<!---->
+      <!-- 主标题 -->
+      <div class="flex flex-col leading-[1.1] tracking-[2px]" style="margin-top: 2.5vw">
+        <span
+          class="font-noto font-bold text-white"
+          style="font-size: clamp(1.5rem, 3vw, 2.5rem)"
+        >
+          欢迎来到
+        </span>
+        <div class="font-bebas" style="font-size: clamp(2.5rem, 6vw, 5rem)">
+          <span class="text-brand-red">RED</span>
+          <span class="text-white">STAR</span>
+          <span class="text-brand-yellow">MC</span>
+        </div>
+      </div>
+<!---->
+      <!-- 描述段落 + 紫色装饰点 -->
+      <div class="flex items-start gap-2" style="margin-top: 1vw">
+        <p
+          class="font-noto leading-[1.56] text-white/89"
+          style="font-size: clamp(0.875rem, 1.25vw, 1.125rem); width: 100%"
+        >
+          一个充满活力的 Minecraft 社区，等待你的加入。在这里，每一个方块都承载着无限可能，每一次冒险都是全新故事的开始。
+        </p>
+        <span class="h-2 w-2 shrink-0 rounded-full bg-brand-purple" style="margin-top: 2.64vw"></span>
+      </div>
+<!---->
+      <!-- 底部装饰：白线 + 黄点 -->
+      <div class="flex items-center gap-2" style="margin-top: 2.5vw">
+        <span class="h-[2px] w-[clamp(40px,4.44vw,72px)] rounded-full bg-white/30"></span>
+        <span class="h-2 w-2 rounded-full bg-brand-yellow"></span>
+      </div>
     </div>
-  </div>
-
-  <!-- 描述段落 + 紫色装饰点 -->
-  <div class="flex items-start gap-2" style="margin-top: 1vw;">
-    <p
-      class="font-noto leading-[1.56] text-white/89"
-      style="font-size: clamp(0.875rem, 1.25vw, 1.125rem); width: 100%;"
-    >
-      一个充满活力的 Minecraft 社区，等待你的加入。在这里，每一个方块都承载着无限可能，每一次冒险都是全新故事的开始。
-    </p>
-    <span class="h-2 w-2 shrink-0 rounded-full bg-brand-purple" style="margin-top: 2.64vw;"></span>
-  </div>
-
-  <!-- 底部装饰：白线 + 黄点 -->
-  <div class="flex items-center gap-2" style="margin-top: 2.5vw;">
-    <span class="h-[2px] w-[clamp(40px,4.44vw,72px)] rounded-full bg-white/30"></span>
-    <span class="h-2 w-2 rounded-full bg-brand-yellow"></span>
-  </div>
-</div>
 <!---->
-    <!-- 滚动提示：确保居中，不被遮挡 -->
+    <!-- 滚动提示：循环上下浮动 -->
     <div
-      class="absolute bottom-[5vh] left-1/2 z-40 -translate-x-1/2 cursor-pointer"
+      class="animate-bounce-loop absolute bottom-[5vh] left-1/2 z-40 -translate-x-1/2 cursor-pointer"
       @click="emit('next')"
     >
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
 <!---->
-    <!-- 标签浮层：右下，稍微收小 -->
-    <div class="absolute right-[20%] bottom-[5%] z-[5]" style="width: 24%; max-width: 360px;">
+    <!-- 标签浮层：右下 -->
+    <div
+      class="absolute right-[20%] bottom-[5%] z-[5]"
+      style="width: 24%; max-width: 360px"
+    >
+      <!-- 星型装饰：作为背景，不参与动画 -->
+      <img
+        :src="tagsDeco"
+        alt=""
+        class="pointer-events-none absolute left-[5%] top-[1vw] z-0 w-[88.14%]"
+        :style="{ aspectRatio: '1189 / 1169' }"
+      />
+<!---->
       <!-- 背景图容器 -->
       <div
-        class="relative w-[91.18%] bg-cover bg-center"
+        class="relative z-10 w-[91.18%] bg-cover bg-center"
         :style="{ backgroundImage: `url(${tagsBg})`, aspectRatio: '1230 / 1209' }"
       >
         <!-- 标签行 -->
@@ -81,14 +91,15 @@
           class="absolute left-[16.26%] top-[50.46%] flex gap-[clamp(24px,3.54vw,60px)]"
         >
           <div
-            v-for="tag in tags"
+            v-for="(tag, i) in tags"
             :key="tag.label"
-            class="flex items-center rounded-full border border-l border-r-0 border-white/20 bg-black/50"
-            style="
-              height: clamp(28px, 2.64vw, 42px);
-              width: clamp(72px, 6.94vw, 110px);
-              padding-left: clamp(10px, 1.18vw, 20px);
-            "
+            class="animate-tag-pop flex items-center rounded-full border border-l border-r-0 border-white/20 bg-black/50"
+            :style="{
+              height: 'clamp(28px, 2.64vw, 42px)',
+              width: 'clamp(72px, 6.94vw, 110px)',
+              paddingLeft: 'clamp(10px, 1.18vw, 20px)',
+              animationDelay: `${0.4 + i * 0.1}s`,
+            }"
           >
             <img :src="tag.iconSrc" :alt="tag.label" class="h-4 w-4" />
             <span
@@ -102,16 +113,12 @@
             >
               {{ tag.label }}
             </span>
-          </div>
+          
+</div>
+<!---->
+
         </div>
       </div>
-      <!-- 装饰图 -->
-      <img
-        :src="tagsDeco"
-        alt=""
-        class="absolute w-[88.14%]"
-        :style="{ left: '5%', top: '1vw', aspectRatio: '1189 / 1169', pointerEvents: 'none' }"
-      />
     </div>
   
 </section>
@@ -174,4 +181,70 @@ const tags = ref([
 ])
 </script>
 
-<style scoped></style>
+<style scoped>
+/* 欢迎文字区：从左向右浮入 */
+@keyframes floatFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 标签：从下向上弹出 */
+@keyframes tagPop {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 服务器地址框：从右至左滑入 + 轻微回弹 */
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+  70% {
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 向下滚动提示：循环上下浮动 */
+@keyframes bounceLoop {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-12px);
+  }
+}
+
+.animate-float-left {
+  animation: floatFromLeft 0.8s ease-out both;
+}
+
+.animate-tag-pop {
+  animation: tagPop 0.5s ease-out both;
+}
+
+.animate-slide-right {
+  animation: slideFromRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-bounce-loop {
+  animation: bounceLoop 1.5s ease-in-out infinite;
+}
+</style>
