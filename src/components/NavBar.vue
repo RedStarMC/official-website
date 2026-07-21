@@ -113,16 +113,13 @@ const iconButtons = [
 const activeId = ref('hero')
 
 const emit = defineEmits<{
-  navigate: [href: string]
+  navigate: [href: number]
 }>()
 
 function handleNavClick(index: number) {
-  const sectionIds = ['hero', 'community', 'architecture', 'staff', 'footer']
-  const targetId = sectionIds[index]
-  if (targetId) {
-    emit('navigate', targetId)
-  }
+  emit('navigate', index)
 }
+
 
 const observerCallback = (entries: IntersectionObserverEntry[]) => {
   entries.forEach((entry) => {

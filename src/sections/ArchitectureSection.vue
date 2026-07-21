@@ -156,8 +156,9 @@
         :style="{ left: '54.51%', top: '33.89%', width: '35.76%', aspectRatio: '515 / 100' }"
     />
 
+
     <!-- 滚动提示 -->
-    <div class="absolute z-10 cursor-pointer" style="left: 47.71%; bottom: 5vh;" @click="emit('next')">
+    <div class="absolute z-10 cursor-pointer" style="left: 50%; bottom: 5vh; transform: translateX(-50%);" @click="emit('next')">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
   </section>
@@ -167,9 +168,15 @@
 import ServerCard from '../components/ServerCard.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
+
+defineProps<{
+  currentIndex: number
+}>()
+
 const emit = defineEmits<{
   next: []
   prev: []
+  navigate: [index: number]
 }>()
 
 const bgImage = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80949253850/75a0/8bd9/1d4a/87af4a345b5db191e820f6dfaaabdd13.png'

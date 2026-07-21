@@ -15,14 +15,7 @@
         style="width: 100%"
       />
     </div>
-<!---->
-    <!-- 页面指示点：右侧 -->
-    <div
-      class="absolute right-[2.78%] top-[46.88%] z-10 flex flex-col items-center gap-[0.98vh]"
-    >
-      <span class="h-[13px] w-[13px] rounded-full border-2 border-brand-red bg-brand-red"></span>
-      <span class="h-[10px] w-[10px] rounded-full border-2 border-white/60 bg-white/40"></span>
-    </div>
+
 <!---->
     <!-- 欢迎文字区：左下，位置优化 -->
     <div class="absolute left-[4%] bottom-[14%] z-10 flex flex-col" style="width: 33%;">
@@ -131,8 +124,13 @@ import { ref } from 'vue'
 import ServerAddressBar from '../components/ServerAddressBar.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
+defineProps<{
+  currentIndex: number
+}>()
+
 const emit = defineEmits<{
   next: []
+  navigate: [index: number]
 }>()
 
 const heroBg =
