@@ -1,6 +1,7 @@
 <template>
   <div class="w-full bg-white">
-    <NavBar @navigate="scrollToSection" />
+    <NavBar :active-id="sections[currentSection]" @navigate="scrollToSection" />
+
 <!---->
     <!-- 全局唯一的页面指示点 -->
     <PageIndicator

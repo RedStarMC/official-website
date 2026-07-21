@@ -60,12 +60,16 @@
     <div
       class="absolute bottom-[3vh] left-0 z-40 w-full"
       :class="scrollAnim"
-      @click="emit('next')"
     >
       <div class="flex w-full justify-center">
-        <ScrollIndicator :icon-src="scrollIcon" />
+        <ScrollIndicator
+         :icon-src="scrollIcon"
+          class="cursor-pointer"
+          @click="emit('next')"
+        />
       </div>
     </div>
+
 <!---->
     <!-- 标签浮层 -->
     <div
@@ -94,9 +98,10 @@
               height: 'clamp(28px, 2.64vw, 42px)',
               width: 'clamp(72px, 6.94vw, 110px)',
               paddingLeft: 'clamp(10px, 1.18vw, 20px)',
-              animationDelay: `${0.4 + i * 0.1}s`,
+              animationDelay: mode.value === 'initial' ? `${0.4 + i * 0.1}s` : '0s',
             }"
           >
+
             <img :src="tag.iconSrc" :alt="tag.label" class="h-4 w-4" />
             <span
               class="font-outfit leading-5 text-white"
@@ -161,25 +166,30 @@ watch(
 const addressAnim = computed(() => {
   if (mode.value === 'leave') return 'animate-slide-out-right'
   if (mode.value === 'enter') return 'animate-slide-in-right'
+  if (mode.value === 'idle') return 'opacity-0'
   return 'animate-slide-right'
 })
 
 const welcomeAnim = computed(() => {
   if (mode.value === 'leave') return 'animate-slide-out-left'
   if (mode.value === 'enter') return 'animate-slide-in-left'
+  if (mode.value === 'idle') return 'opacity-0'
   return 'animate-float-left'
 })
 
 const tagsAnim = computed(() => {
   if (mode.value === 'leave') return 'animate-tag-fade-out'
+  if (mode.value === 'idle') return 'opacity-0'
   return 'animate-tag-pop'
 })
 
 const scrollAnim = computed(() => {
   if (mode.value === 'leave') return 'animate-fade-out'
   if (mode.value === 'enter') return 'animate-fade-in-bounce'
+  if (mode.value === 'idle') return 'opacity-0'
   return 'animate-bounce-loop'
 })
+
 
 
 const heroBg =
@@ -363,6 +373,12 @@ const tags = ref([
 .animate-tag-pop {
   animation: tagPop 0.5s ease-out both;
 }
+
+
+.animate-tag-pop-enter {
+  animation: tagPop 0.5s ease-out both;
+}
+
 
 .animate-slide-right {
   animation: slideFromRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
