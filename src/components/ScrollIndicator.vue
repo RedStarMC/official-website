@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start opacity-99">
+  <div class="flex flex-col items-center opacity-99">
     <span class="font-outfit text-xs font-medium tracking-[4px] text-white/80">{{ topText }}</span>
     <div class="mt-2 flex h-6 w-6 items-center justify-center">
       <img :src="iconSrc" alt="scroll icon" class="h-6 w-6" />

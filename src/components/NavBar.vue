@@ -1,51 +1,85 @@
 <template>
   <nav
-    class="fixed top-0 left-0 z-50 flex h-[119px] w-full items-center justify-between px-[54px]"
-    style="background: linear-gradient(180deg, var(--color-brand-bg) 0%, rgba(232,230,245,0.33) 52.14%, rgba(255,255,255,0) 100%)"
+    class="fixed top-0 left-0 z-50 w-full"
+    style="
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.7) 45%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    "
   >
-    <!-- Logo -->
-    <div class="flex items-center gap-[9px]">
-      <div class="flex h-[82px] w-[82px] items-center justify-center rounded-2xl bg-brand-red">
-        <img
-          src="https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902098673/4055/0d4c/e047/80908cf29da28a539c89ccc224d02549.png"
-          alt="logo"
-          class="h-12 w-12"
-        />
-      </div>
-      <div class="flex items-center font-bebas text-[36px] leading-[40px] tracking-[2px] text-brand-dark">
-        <span class="text-brand-red">RED</span>
-        <span class="text-brand-yellow">STAR</span>
-        <span class="text-brand-dark">MC</span>
-      </div>
-    </div>
-
-    <!-- 导航链接（居中） -->
-    <div class="flex flex-1 justify-center gap-[51px]">
-      <a
-        v-for="(item, index) in navItems"
-        :key="item.id"
-        href="#"
-        class="flex flex-col items-center font-outfit text-sm leading-5 transition-colors duration-300"
-        :class="activeId === item.id ? 'font-bold text-brand-red' : 'font-semibold text-white hover:text-brand-red/80'"
-        @click.prevent="handleNavClick(index)"
-      >
-        <span>{{ item.label }}</span>
-        <span
-          class="mt-[3px] h-[2px] w-[29px] bg-brand-red transition-all duration-300"
-          :class="activeId === item.id ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'"
-        ></span>
+<div
+  class="flex h-[90px] w-full items-center justify-between"
+  style="padding-left: 5vw; padding-right: 5vw;"
+>
+      <!-- Logo（左侧，紧贴左边距内） -->
+      <a href="#" class="flex items-center gap-3">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-red shadow-sm"
+        >
+          <img
+            src="https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902098673/4055/0d4c/e047/80908cf29da28a539c89ccc224d02549.png"
+            alt="logo"
+            class="h-7 w-7"
+          />
+        </div>
+        <div
+          class="flex items-center font-bebas text-[26px] tracking-[1px] text-brand-dark"
+          style="line-height: 1;"
+        >
+          <span class="text-brand-red">RED</span>
+          <span class="text-brand-yellow">STAR</span>
+          <span class="text-brand-dark">MC</span>
+        </div>
       </a>
-    </div>
 
-    <!-- 图标按钮 -->
-    <div class="flex items-center gap-3">
-      <button
-        v-for="(icon, i) in iconButtons"
-        :key="i"
-        class="flex h-10 w-10 items-center justify-center rounded-full bg-white/30 transition hover:bg-white/50"
-      >
-        <img :src="icon.src" :alt="icon.alt" class="h-5 w-5" />
-      </button>
+      <!-- 右侧聚合：导航链接 + 分隔线 + 图标按钮（整体紧贴右边距内） -->
+      <div class="flex items-center gap-8 lg:gap-10">
+        <!-- 导航链接 -->
+        <ul class="hidden md:flex items-center gap-8 lg:gap-9">
+          <li v-for="(item, index) in navItems" :key="item.id">
+            <a
+              href="#"
+              class="group relative flex flex-col items-center font-outfit text-[15px] leading-5 transition-colors duration-300"
+              :class="
+                activeId === item.id
+                  ? 'font-bold text-brand-red'
+                  : 'font-semibold text-brand-dark/80 hover:text-brand-red'
+              "
+              @click.prevent="handleNavClick(index)"
+            >
+              <span>{{ item.label }}</span>
+              <span
+                class="mt-[4px] h-[3px] w-5 rounded-full bg-brand-red transition-all duration-300"
+                :class="
+                  activeId === item.id
+                    ? 'opacity-100 scale-x-100'
+                    : 'opacity-0 scale-x-0 group-hover:opacity-60 group-hover:scale-x-75'
+                "
+              ></span>
+            </a>
+          </li>
+        </ul>
+<!---->
+        <!-- 分隔线 -->
+        <div class="hidden md:block h-5 w-px bg-brand-dark/15">
+</div>
+
+
+
+        <!-- 图标按钮 -->
+        <div class="flex items-center gap-3">
+          <button
+            v-for="(icon, i) in iconButtons"
+            :key="i"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-black/5 transition duration-300 hover:bg-black/10 hover:scale-105 active:scale-95"
+          >
+            <img :src="icon.src" :alt="icon.alt" class="h-5 w-5" />
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
