@@ -78,15 +78,15 @@ const iconButtons = [
 
 const activeId = ref('hero')
 
+const emit = defineEmits<{
+  navigate: [href: string]
+}>()
+
 function handleNavClick(index: number) {
   const sectionIds = ['hero', 'community', 'architecture', 'staff', 'footer']
-  const el = document.getElementById(sectionIds[index])
-  const container = document.querySelector('.snap-container') as HTMLElement
-  if (el && container) {
-    container.scrollTo({
-      top: el.offsetTop - container.offsetTop,
-      behavior: 'smooth'
-    })
+  const targetId = sectionIds[index]
+  if (targetId) {
+    emit('navigate', targetId)
   }
 }
 

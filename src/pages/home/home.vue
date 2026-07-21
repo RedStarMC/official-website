@@ -1,6 +1,6 @@
 <template>
   <div class="w-full bg-white">
-    <NavBar @navigate="scrollToSection" />
+	<NavBar @navigate="handleNavClick" />
     <main ref="containerRef" class="snap-container">
       <HeroSection @next="scrollToSection(1)" />
       <CommunitySection @next="scrollToSection(2)" @prev="scrollToSection(0)" />
@@ -25,6 +25,12 @@ const currentSection = ref(0)
 const sections = ['hero', 'community', 'architecture', 'staff', 'footer']
 const isScrolling = ref(false)
 const SCROLL_COOLDOWN = 300 // ms，缩短冷却时间
+
+function handleNavClick(href: string | undefined) {
+  if (typeof href === 'string') {
+    scrollToSection(href)
+  }
+}
 
 // 计算某 section 在 container 内的 scrollTop
 function getSectionScrollTop(index: number): number {
@@ -159,7 +165,9 @@ onUnmounted(() => {
     container.removeEventListener('touchend', handleTouchEnd)
   }
   window.removeEventListener('keydown', handleKeydown)
-  observer?.disconnect()
+  if (observer) {
+    observer.disconnect()
+  }
 })
 </script>
 
