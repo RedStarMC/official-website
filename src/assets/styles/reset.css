@@ -28,3 +28,63 @@
     --font-jetbrains: 'JetBrains Mono', monospace;
     --font-inter: 'Inter', sans-serif;
 }
+
+/* ========== 全局重置 ========== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#app {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* 移除列表默认样式 */
+ul,
+ol {
+    list-style: none;
+}
+
+/* 移除链接默认下划线 */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 移除按钮默认样式 */
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+/* 图片默认块级 + 自适应 */
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* 表单元素继承字体 */
+input,
+textarea,
+select {
+    font: inherit;
+}
