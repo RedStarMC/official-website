@@ -10,7 +10,7 @@
       style="width: clamp(280px, 33.33vw, 480px)"
     >
       <ServerAddressBar
-        address="play.redstarmc.net"
+        address="play.redstarcity.net"
         label="服务器地址"
         style="width: 100%"
       />
@@ -66,11 +66,10 @@
         <ScrollIndicator :icon-src="scrollIcon" />
       </div>
     </div>
-
 <!---->
     <!-- 标签浮层 -->
     <div
-      class="absolute right-[20%] bottom-[0.1%] z-[5]"
+      class="absolute right-[20%] bottom-[3%] z-[5]"
       style="width: 24%; max-width: 360px"
     >
       <img
@@ -124,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import ServerAddressBar from '../components/ServerAddressBar.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
@@ -139,17 +138,18 @@ const emit = defineEmits<{
 
 // initial: 首次开屏 | enter: 从其它页回到首页 | leave: 从首页离开 | idle: 其它情况
 type HeroMode = 'initial' | 'enter' | 'leave' | 'idle'
-const mode = ref<HeroMode>('initial')
 
-onMounted(() => {
-  mode.value = props.currentIndex === 0 ? 'initial' : 'idle'
-})
+// 在 setup 中直接设置初始 mode，避免 onMounted 与 watch 的竞态
+const mode = ref<HeroMode>(props.currentIndex === 0 ? 'initial' : 'idle')
 
 watch(
   () => props.currentIndex,
   (now, prev) => {
+    // 首次触发（prev === undefined）时跳过，防止覆盖 initial 动画
+    if (prev === undefined) return
+
     if (now === 0) {
-      mode.value = prev === 0 || prev === undefined ? 'initial' : 'enter'
+      mode.value = prev === 0 ? 'initial' : 'enter'
     } else if (prev === 0) {
       mode.value = 'leave'
     } else {
@@ -172,13 +172,12 @@ const welcomeAnim = computed(() => {
 
 const tagsAnim = computed(() => {
   if (mode.value === 'leave') return 'animate-tag-fade-out'
-  if (mode.value === 'enter') return 'animate-tag-pop'
   return 'animate-tag-pop'
 })
 
 const scrollAnim = computed(() => {
   if (mode.value === 'leave') return 'animate-fade-out'
-  // 首次进入、切回首页、正常显示时都保持循环浮动
+  if (mode.value === 'enter') return 'animate-fade-in-bounce'
   return 'animate-bounce-loop'
 })
 
@@ -265,13 +264,14 @@ const tags = ref([
 @keyframes bounceLoop {
   0%,
   100% {
+    opacity: 1;
     transform: translateY(0);
   }
   50% {
+    opacity: 1;
     transform: translateY(-12px);
   }
 }
-
 
 
 /* ===== 新增：滑出 / 滑入动画 ===== */
@@ -342,11 +342,18 @@ const tags = ref([
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
 
 /* ===== 动画类 ===== */
 .animate-float-left {
@@ -387,11 +394,13 @@ const tags = ref([
   animation: slideInLeft 0.8s ease-out forwards;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
 
 .animate-fade-out {
   animation: fadeOut 0.4s ease-in forwards;
 }
+
+.animate-fade-in-bounce {
+  animation: fadeIn 0.5s ease-out forwards, bounceLoop 1.5s ease-in-out 0.5s infinite;
+}
+
 </style>

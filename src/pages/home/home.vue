@@ -97,15 +97,25 @@ function scrollToPrev() {
 }
 
 // Wheel 事件：只有滚动幅度足够大时才翻页，保留小幅度滚动的原生行为
-const WHEEL_THRESHOLD = 40 // 滚动幅度阈值
+const WHEEL_THRESHOLD = 40
 let wheelAccumulated = 0
+let wheelResetTimer: ReturnType<typeof setTimeout> | null = null
 
 function handleWheel(e: WheelEvent) {
-  // 不阻止默认行为，让浏览器保持滚动惯性
-  if (isScrolling.value) return
-  
+  if (isScrolling.value) {
+    wheelAccumulated = 0
+    if (wheelResetTimer) clearTimeout(wheelResetTimer)
+    return
+  }
+
   wheelAccumulated += e.deltaY
-  
+
+  // 停止滚动手势后 150ms 自动清零
+  if (wheelResetTimer) clearTimeout(wheelResetTimer)
+  wheelResetTimer = setTimeout(() => {
+    wheelAccumulated = 0
+  }, 150)
+
   if (Math.abs(wheelAccumulated) >= WHEEL_THRESHOLD) {
     if (wheelAccumulated > 0) {
       scrollToNext()
@@ -115,6 +125,7 @@ function handleWheel(e: WheelEvent) {
     wheelAccumulated = 0
   }
 }
+
 
 // 键盘事件处理
 function handleKeydown(e: KeyboardEvent) {
