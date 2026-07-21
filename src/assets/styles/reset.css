@@ -68,12 +68,13 @@ a {
 }
 
 /* 移除按钮默认样式 */
-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font: inherit;
+:where(button) {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
 }
+
 
 /* 图片默认块级 + 自适应 */
 img {

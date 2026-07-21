@@ -218,20 +218,28 @@
       </div>
     </div>
 
+
     <!-- 滚动提示 -->
-    <div class="absolute z-10 cursor-pointer" style="right: 73%; bottom: 5vh;" @click="emit('next')">
+    <div class="absolute z-10 cursor-pointer" style="left: 50%; bottom: 5vh; transform: translateX(-50%);" @click="emit('next')">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
   </section>
+
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
+
+defineProps<{
+  currentIndex: number
+}>()
+
 const emit = defineEmits<{
   next: []
   prev: []
+  navigate: [index: number]
 }>()
 
 const bgImage = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80948901549/bc41/a27c/548a/a270c6f8c9c9ec6e453493d2b0ec0282.png'

@@ -1,19 +1,51 @@
 <template>
   <div class="w-full bg-white">
     <NavBar @navigate="scrollToSection" />
+<!---->
+    <!-- 全局唯一的页面指示点 -->
+    <PageIndicator
+      :current-index="currentSection"
+      @navigate="scrollToSection"
+    />
+
+<!---->
     <main ref="containerRef" class="snap-container">
-      <HeroSection @next="scrollToSection(1)" />
-      <CommunitySection @next="scrollToSection(2)" @prev="scrollToSection(0)" />
-      <ArchitectureSection @next="scrollToSection(3)" @prev="scrollToSection(1)" />
-      <StaffSection @prev="scrollToSection(2)" @top="scrollToSection(0)" />
+      <HeroSection
+        :current-index="currentSection"
+        @next="scrollToSection(1)"
+        @navigate="scrollToSection"
+      />
+      <CommunitySection
+        :current-index="currentSection"
+        @next="scrollToSection(2)"
+        @prev="scrollToSection(0)"
+        @navigate="scrollToSection"
+      />
+      <ArchitectureSection
+        :current-index="currentSection"
+        @next="scrollToSection(3)"
+        @prev="scrollToSection(1)"
+        @navigate="scrollToSection"
+      />
+      <StaffSection
+        :current-index="currentSection"
+        @prev="scrollToSection(2)"
+        @top="scrollToSection(0)"
+        @navigate="scrollToSection"
+      />
       <FooterSection />
     </main>
-  </div>
+  
+</div>
+
+
 </template>
+
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import NavBar from '../../components/NavBar.vue'
+import PageIndicator from '../../components/PageIndicator.vue'
 import HeroSection from '../../sections/HeroSection.vue'
 import CommunitySection from '../../sections/CommunitySection.vue'
 import ArchitectureSection from '../../sections/ArchitectureSection.vue'

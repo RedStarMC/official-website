@@ -178,8 +178,9 @@
       </div>
     </div>
 
+
     <!-- 滚动到 Footer -->
-    <div class="absolute z-10 cursor-pointer" style="left: 48.33%; bottom: 5vh;" @click="emit('next')">
+    <div class="absolute z-10 cursor-pointer" style="left: 50%; bottom: 5vh; transform: translateX(-50%);" @click="emit('next')">
       <ScrollIndicator
           :icon-src="scrollTopIcon"
           top-text="SCROLL"
@@ -192,9 +193,14 @@
 <script setup lang="ts">
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
+defineProps<{
+  currentIndex: number
+}>()
+
 const emit = defineEmits<{
   next: []
   prev: []
+  navigate: [index: number]
 }>()
 
 const bgImage = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80948905064/1324/b826/e440/b7af1d60fb140fb4b421b73da9a98f8e.jpg'
