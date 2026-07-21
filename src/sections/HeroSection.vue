@@ -65,7 +65,7 @@
     </div>
 
     <!-- 滚动提示 -->
-    <div class="absolute bottom-[5vh] left-1/2 z-10 -translate-x-1/2 cursor-pointer" @click="emit('next')">
+    <div class="absolute bottom-[5vh] left-1/2 z-10 -translate-x-1/2 cursor-pointer" @click="scrollToNext">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
 

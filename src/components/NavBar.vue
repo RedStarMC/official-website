@@ -78,19 +78,21 @@ const iconButtons = [
 
 const activeId = ref('hero')
 
-const emit = defineEmits<{
-  navigate: [index: number]
-}>()
-
 function handleNavClick(index: number) {
-  emit('navigate', index)
+  const sectionIds = ['hero', 'community', 'architecture', 'staff', 'footer']
+  const el = document.getElementById(sectionIds[index])
+  const container = document.querySelector('.snap-container') as HTMLElement
+  if (el && container) {
+    container.scrollTo({
+      top: el.offsetTop - container.offsetTop,
+      behavior: 'smooth'
+    })
+  }
 }
 
-// IntersectionObserver 监听各 section
 const observerCallback = (entries: IntersectionObserverEntry[]) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      // Footer 映射到 'staff' 高亮
       activeId.value = entry.target.id === 'footer' ? 'staff' : entry.target.id
     }
   })
@@ -105,15 +107,17 @@ onMounted(() => {
     threshold: 0,
   })
 
-  // 观察所有导航对应的 section
   navItems.value.forEach((item) => {
     const el = document.getElementById(item.id)
     if (el) observer?.observe(el)
   })
 
-  // 也观察 Footer，但映射到 'staff' 高亮
   const footerEl = document.getElementById('footer')
   if (footerEl) observer?.observe(footerEl)
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
 })
 </script>
 

@@ -24,7 +24,15 @@ const containerRef = ref<HTMLElement | null>(null)
 const currentSection = ref(0)
 const sections = ['hero', 'community', 'architecture', 'staff', 'footer']
 const isScrolling = ref(false)
-const SCROLL_COOLDOWN = 800 // ms
+const SCROLL_COOLDOWN = 300 // ms，缩短冷却时间
+
+// 计算某 section 在 container 内的 scrollTop
+function getSectionScrollTop(index: number): number {
+  const el = document.getElementById(sections[index])
+  const container = containerRef.value
+  if (!el || !container) return 0
+  return el.offsetTop - container.offsetTop
+}
 
 function scrollToSection(index: number) {
   if (isScrolling.value) return
@@ -33,9 +41,12 @@ function scrollToSection(index: number) {
   isScrolling.value = true
   currentSection.value = index
   
-  const el = document.getElementById(sections[index])
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
+  const container = containerRef.value
+  if (container) {
+    container.scrollTo({
+      top: getSectionScrollTop(index),
+      behavior: 'smooth'
+    })
   }
   
   setTimeout(() => {
@@ -53,15 +64,23 @@ function scrollToPrev() {
   scrollToSection(currentSection.value - 1)
 }
 
-// Wheel 事件处理
+// Wheel 事件：只有滚动幅度足够大时才翻页，保留小幅度滚动的原生行为
+const WHEEL_THRESHOLD = 40 // 滚动幅度阈值
+let wheelAccumulated = 0
+
 function handleWheel(e: WheelEvent) {
-  e.preventDefault()
+  // 不阻止默认行为，让浏览器保持滚动惯性
   if (isScrolling.value) return
   
-  if (e.deltaY > 0) {
-    scrollToNext()
-  } else {
-    scrollToPrev()
+  wheelAccumulated += e.deltaY
+  
+  if (Math.abs(wheelAccumulated) >= WHEEL_THRESHOLD) {
+    if (wheelAccumulated > 0) {
+      scrollToNext()
+    } else {
+      scrollToPrev()
+    }
+    wheelAccumulated = 0
   }
 }
 
@@ -88,7 +107,7 @@ function handleTouchEnd(e: TouchEvent) {
   const touchEndY = e.changedTouches[0].clientY
   const diff = touchStartY - touchEndY
   
-  if (Math.abs(diff) > 50) {
+  if (Math.abs(diff) > 80) { // 增加触摸阈值，减少误触
     if (diff > 0) {
       scrollToNext()
     } else {
@@ -114,20 +133,18 @@ let observer: IntersectionObserver | null = null
 onMounted(() => {
   const container = containerRef.value
   if (container) {
-    container.addEventListener('wheel', handleWheel, { passive: false })
+    container.addEventListener('wheel', handleWheel, { passive: true }) // passive: true，不阻止默认行为
     container.addEventListener('touchstart', handleTouchStart, { passive: true })
     container.addEventListener('touchend', handleTouchEnd, { passive: true })
   }
   window.addEventListener('keydown', handleKeydown)
 
-  // IntersectionObserver 配置
   observer = new IntersectionObserver(observerCallback, {
     root: container,
-    rootMargin: '-40% 0px -40% 0px',
+    rootMargin: '-30% 0px -30% 0px', // 稍微放宽触发区域
     threshold: 0,
   })
 
-  // 观察所有 section
   sections.forEach((id) => {
     const el = document.getElementById(id)
     if (el) observer?.observe(el)
@@ -157,6 +174,6 @@ onUnmounted(() => {
 .snap-container > section,
 .snap-container > footer {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  /* 移除 scroll-snap-stop: always，允许浏览器在快速滚动时跳过中间屏 */
 }
 </style>
