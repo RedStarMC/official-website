@@ -81,10 +81,10 @@ const activeId = ref('hero')
 function handleNavClick(index: number) {
   const sectionIds = ['hero', 'community', 'architecture', 'staff', 'footer']
   const el = document.getElementById(sectionIds[index])
-  const container = document.querySelector('.snap-container') as HTMLElement
+  const container = document.querySelector('.snap-container')
   if (el && container) {
-    container.scrollTo({
-      top: el.offsetTop - container.offsetTop,
+    ;(container as HTMLElement).scrollTo({
+      top: el.offsetTop - (container as HTMLElement).offsetTop,
       behavior: 'smooth'
     })
   }

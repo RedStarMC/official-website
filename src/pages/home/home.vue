@@ -31,7 +31,7 @@ function getSectionScrollTop(index: number): number {
   const el = document.getElementById(sections[index])
   const container = containerRef.value
   if (!el || !container) return 0
-  return el.offsetTop - container.offsetTop
+  return el.offsetTop - (container as HTMLElement).offsetTop
 }
 
 function scrollToSection(index: number) {
@@ -43,7 +43,7 @@ function scrollToSection(index: number) {
   
   const container = containerRef.value
   if (container) {
-    container.scrollTo({
+    ;(container as HTMLElement).scrollTo({
       top: getSectionScrollTop(index),
       behavior: 'smooth'
     })

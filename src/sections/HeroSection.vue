@@ -121,9 +121,16 @@ import { ref } from 'vue'
 import ServerAddressBar from '../components/ServerAddressBar.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
 
-const emit = defineEmits<{
-  next: []
-}>()
+function scrollToNext() {
+  const container = document.querySelector('.snap-container')
+  const next = document.getElementById('community')
+  if (container && next) {
+    ;(container as HTMLElement).scrollTo({
+      top: next.offsetTop - (container as HTMLElement).offsetTop,
+      behavior: 'smooth'
+    })
+  }
+}
 
 const heroBg =
     'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902100193/905e/079a/3143/9b5f2d60778e05a5b5a6b8c674770695.png'
