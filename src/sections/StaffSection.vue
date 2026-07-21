@@ -178,12 +178,12 @@
       </div>
     </div>
 
-    <!-- 回到首页指示 -->
-    <div class="absolute z-10" style="left: 48.33%; bottom: 5vh;">
+    <!-- 滚动到 Footer -->
+    <div class="absolute z-10 cursor-pointer" style="left: 48.33%; bottom: 5vh;" @click="emit('next')">
       <ScrollIndicator
           :icon-src="scrollTopIcon"
           top-text="SCROLL"
-          bottom-text="回到首页"
+          bottom-text="向下滚动"
       />
     </div>
   </section>
@@ -191,6 +191,11 @@
 
 <script setup lang="ts">
 import ScrollIndicator from '../components/ScrollIndicator.vue'
+
+const emit = defineEmits<{
+  next: []
+  prev: []
+}>()
 
 const bgImage = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80948905064/1324/b826/e440/b7af1d60fb140fb4b421b73da9a98f8e.jpg'
 const headerIcon = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80948904249/ace0/d7da/bafb/b4d3db2f20d80b43fcb2787d255ff382.png'

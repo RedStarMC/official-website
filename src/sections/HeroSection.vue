@@ -65,7 +65,7 @@
     </div>
 
     <!-- 滚动提示 -->
-    <div class="absolute bottom-[5vh] left-1/2 z-10 -translate-x-1/2">
+    <div class="absolute bottom-[5vh] left-1/2 z-10 -translate-x-1/2 cursor-pointer" @click="emit('next')">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
 
@@ -120,6 +120,10 @@
 import { ref } from 'vue'
 import ServerAddressBar from '../components/ServerAddressBar.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
+
+const emit = defineEmits<{
+  next: []
+}>()
 
 const heroBg =
     'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902100193/905e/079a/3143/9b5f2d60778e05a5b5a6b8c674770695.png'

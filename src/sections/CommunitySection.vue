@@ -219,7 +219,7 @@
     </div>
 
     <!-- 滚动提示 -->
-    <div class="absolute z-10" style="right: 73%; bottom: 5vh;">
+    <div class="absolute z-10 cursor-pointer" style="right: 73%; bottom: 5vh;" @click="emit('next')">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
   </section>
@@ -228,6 +228,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
+
+const emit = defineEmits<{
+  next: []
+  prev: []
+}>()
 
 const bgImage = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80948901549/bc41/a27c/548a/a270c6f8c9c9ec6e453493d2b0ec0282.png'
 const arrowIcon = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902105400/fca1/b1d0/17ea/7a2a9fe4a29dd219b81ff4f35a051014.png'

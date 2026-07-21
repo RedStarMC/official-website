@@ -22,12 +22,12 @@
     <!-- 导航链接（居中） -->
     <div class="flex flex-1 justify-center gap-[51px]">
       <a
-        v-for="item in navItems"
+        v-for="(item, index) in navItems"
         :key="item.id"
         href="#"
         class="flex flex-col items-center font-outfit text-sm leading-5 transition-colors duration-300"
         :class="activeId === item.id ? 'font-bold text-brand-red' : 'font-semibold text-white hover:text-brand-red/80'"
-        @click.prevent="scrollTo(item.id)"
+        @click.prevent="handleNavClick(index)"
       >
         <span>{{ item.label }}</span>
         <span
@@ -78,11 +78,20 @@ const iconButtons = [
 
 const activeId = ref('hero')
 
+const emit = defineEmits<{
+  navigate: [index: number]
+}>()
+
+function handleNavClick(index: number) {
+  emit('navigate', index)
+}
+
 // IntersectionObserver 监听各 section
 const observerCallback = (entries: IntersectionObserverEntry[]) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      activeId.value = entry.target.id
+      // Footer 映射到 'staff' 高亮
+      activeId.value = entry.target.id === 'footer' ? 'staff' : entry.target.id
     }
   })
 }
@@ -90,7 +99,6 @@ const observerCallback = (entries: IntersectionObserverEntry[]) => {
 let observer: IntersectionObserver | null = null
 
 onMounted(() => {
-  // IntersectionObserver 配置
   observer = new IntersectionObserver(observerCallback, {
     root: null,
     rootMargin: '-40% 0px -40% 0px',
@@ -102,15 +110,11 @@ onMounted(() => {
     const el = document.getElementById(item.id)
     if (el) observer?.observe(el)
   })
-})
 
-onUnmounted(() => {
-  observer?.disconnect()
+  // 也观察 Footer，但映射到 'staff' 高亮
+  const footerEl = document.getElementById('footer')
+  if (footerEl) observer?.observe(footerEl)
 })
-
-function scrollTo(sectionId: string) {
-  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
-}
 </script>
 
 <style scoped></style>

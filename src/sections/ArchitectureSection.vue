@@ -157,7 +157,7 @@
     />
 
     <!-- 滚动提示 -->
-    <div class="absolute z-10" style="left: 47.71%; bottom: 5vh;">
+    <div class="absolute z-10 cursor-pointer" style="left: 47.71%; bottom: 5vh;" @click="emit('next')">
       <ScrollIndicator :icon-src="scrollIcon" />
     </div>
   </section>
@@ -166,6 +166,11 @@
 <script setup lang="ts">
 import ServerCard from '../components/ServerCard.vue'
 import ScrollIndicator from '../components/ScrollIndicator.vue'
+
+const emit = defineEmits<{
+  next: []
+  prev: []
+}>()
 
 const bgImage = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80949253850/75a0/8bd9/1d4a/87af4a345b5db191e820f6dfaaabdd13.png'
 const headerIcon = 'https://seal-img.nos-jd.163yun.com/obj/w5rCgMKVw6DCmGzCmsK-/80902109267/9dc7/03a5/f124/95f6a783a53e9ace06c7a22ed9395bed.png'
