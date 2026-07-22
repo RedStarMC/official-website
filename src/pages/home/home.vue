@@ -50,6 +50,8 @@ import { useScrollSections } from './useScrollSections.ts'
 
 // 解构出响应式状态和方法
 const { containerRef, currentSection, navActiveId, scrollToSection } = useScrollSections()
+
+void containerRef
 </script>
 
 <style>
