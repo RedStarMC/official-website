@@ -2,50 +2,41 @@
   <div class="w-full bg-white">
     <NavBar :active-id="navActiveId" @navigate="scrollToSection" />
 
-
-<!---->
-    <!-- 全局唯一的页面指示点 -->
     <PageIndicator
-      :current-index="currentSection"
-      @navigate="scrollToSection"
+        :current-index="currentSection"
+        @navigate="scrollToSection"
     />
 
-<!---->
     <main ref="containerRef" class="snap-container">
       <HeroSection
-        :current-index="currentSection"
-        @next="scrollToSection(1)"
-        @navigate="scrollToSection"
+          :current-index="currentSection"
+          @next="scrollToSection(1)"
+          @navigate="scrollToSection"
       />
       <CommunitySection
-        :current-index="currentSection"
-        @next="scrollToSection(2)"
-        @prev="scrollToSection(0)"
-        @navigate="scrollToSection"
+          :current-index="currentSection"
+          @next="scrollToSection(2)"
+          @prev="scrollToSection(0)"
+          @navigate="scrollToSection"
       />
       <ArchitectureSection
-        :current-index="currentSection"
-        @next="scrollToSection(3)"
-        @prev="scrollToSection(1)"
-        @navigate="scrollToSection"
+          :current-index="currentSection"
+          @next="scrollToSection(3)"
+          @prev="scrollToSection(1)"
+          @navigate="scrollToSection"
       />
       <StaffSection
-        :current-index="currentSection"
-        @prev="scrollToSection(2)"
-        @top="scrollToSection(0)"
-        @navigate="scrollToSection"
+          :current-index="currentSection"
+          @prev="scrollToSection(2)"
+          @top="scrollToSection(0)"
+          @navigate="scrollToSection"
       />
       <FooterSection />
     </main>
-  
-</div>
-
-
+  </div>
 </template>
 
-
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
 import NavBar from '../../components/NavBar.vue'
 import PageIndicator from '../../components/PageIndicator.vue'
 import HeroSection from '../../sections/HeroSection.vue'
@@ -54,174 +45,11 @@ import ArchitectureSection from '../../sections/ArchitectureSection.vue'
 import StaffSection from '../../sections/StaffSection.vue'
 import FooterSection from '../../sections/FooterSection.vue'
 
-const containerRef = ref<HTMLElement | null>(null)
-const currentSection = ref(0)
-const sections = ['hero', 'community', 'architecture', 'staff', 'footer']
-const isScrolling = ref(false)
+// 导入组合式函数
+import { useScrollSections } from './useScrollSections.ts'
 
-// 把当前 section 的 id 算出来给导航栏用
-// footer 区域在导航里不存在，所以映射为 staff
-const navActiveId = computed(() => {
-  const id = sections[currentSection.value] ?? 'hero'
-  return id === 'footer' ? 'staff' : id
-})
-
-const SCROLL_COOLDOWN = 300 // ms，缩短冷却时间
-
-// 计算某 section 在 container 内的 scrollTop
-function getSectionScrollTop(index: number): number {
-  const id = sections[index]
-  if (!id) return 0
-  const el = document.getElementById(id)
-  const container = containerRef.value
-  if (!el || !container) return 0
-  return el.offsetTop - container.offsetTop
-}
-
-function scrollToSection(index: number) {
-  if (isScrolling.value) return
-  if (index < 0 || index >= sections.length) return
-
-  isScrolling.value = true
-  currentSection.value = index
-
-  const container = containerRef.value
-  if (container) {
-    ;(container as HTMLElement).scrollTo({
-      top: getSectionScrollTop(index),
-      behavior: 'smooth'
-    })
-  }
-
-  setTimeout(() => {
-    isScrolling.value = false
-  }, SCROLL_COOLDOWN)
-}
-
-function scrollToNext() {
-  if (currentSection.value >= sections.length - 1) return
-  scrollToSection(currentSection.value + 1)
-}
-
-function scrollToPrev() {
-  if (currentSection.value <= 0) return
-  scrollToSection(currentSection.value - 1)
-}
-
-// Wheel 事件：只有滚动幅度足够大时才翻页，保留小幅度滚动的原生行为
-const WHEEL_THRESHOLD = 40
-let wheelAccumulated = 0
-let wheelResetTimer: ReturnType<typeof setTimeout> | null = null
-
-function handleWheel(e: WheelEvent) {
-  if (isScrolling.value) {
-    wheelAccumulated = 0
-    if (wheelResetTimer) clearTimeout(wheelResetTimer)
-    return
-  }
-
-  wheelAccumulated += e.deltaY
-
-  // 停止滚动手势后 150ms 自动清零
-  if (wheelResetTimer) clearTimeout(wheelResetTimer)
-  wheelResetTimer = setTimeout(() => {
-    wheelAccumulated = 0
-  }, 150)
-
-  if (Math.abs(wheelAccumulated) >= WHEEL_THRESHOLD) {
-    if (wheelAccumulated > 0) {
-      scrollToNext()
-    } else {
-      scrollToPrev()
-    }
-    wheelAccumulated = 0
-  }
-}
-
-
-// 键盘事件处理
-function handleKeydown(e: KeyboardEvent) {
-  if (isScrolling.value) return
-  
-  if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-    e.preventDefault()
-    scrollToNext()
-  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-    e.preventDefault()
-    scrollToPrev()
-  }
-}
-
-// Touch 事件处理（移动端）
-let touchStartY = 0
-
-function handleTouchStart(e: TouchEvent) {
-  const touch = e.touches[0]
-  if (touch) {
-    touchStartY = touch.clientY
-  }
-}
-
-function handleTouchEnd(e: TouchEvent) {
-  if (isScrolling.value) return
-  const touch = e.changedTouches[0]
-  if (!touch) return
-  const diff = touchStartY - touch.clientY
-
-  if (Math.abs(diff) > 80) {
-    if (diff > 0) {
-      scrollToNext()
-    } else {
-      scrollToPrev()
-    }
-  }
-}
-
-// IntersectionObserver 监听所有 section 位置
-const observerCallback = (entries: IntersectionObserverEntry[]) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      const index = sections.indexOf(entry.target.id)
-      if (index !== -1) {
-        currentSection.value = index
-      }
-    }
-  })
-}
-
-let observer: IntersectionObserver | null = null
-
-onMounted(() => {
-  const container = containerRef.value
-  if (container) {
-    container.addEventListener('wheel', handleWheel, { passive: true }) // passive: true，不阻止默认行为
-    container.addEventListener('touchstart', handleTouchStart, { passive: true })
-    container.addEventListener('touchend', handleTouchEnd, { passive: true })
-  }
-  window.addEventListener('keydown', handleKeydown)
-
-   observer = new IntersectionObserver(observerCallback, {
-     root: container,
-     rootMargin: '-40% 0px -40% 0px',
-     threshold: 0,
-   })
-
-  sections.forEach((id) => {
-    const el = document.getElementById(id)
-    if (el) observer?.observe(el)
-  })
-})
-
-onUnmounted(() => {
-  const container = containerRef.value
-  if (container) {
-    container.removeEventListener('wheel', handleWheel)
-    container.removeEventListener('touchstart', handleTouchStart)
-    container.removeEventListener('touchend', handleTouchEnd)
-  }
-  window.removeEventListener('keydown', handleKeydown)
-  observer?.disconnect()
-})
+// 解构出响应式状态和方法
+const { containerRef, currentSection, navActiveId, scrollToSection } = useScrollSections()
 </script>
 
 <style>
@@ -235,6 +63,5 @@ onUnmounted(() => {
 .snap-container > section,
 .snap-container > footer {
   scroll-snap-align: start;
-  /* 移除 scroll-snap-stop: always，允许浏览器在快速滚动时跳过中间屏 */
 }
 </style>
