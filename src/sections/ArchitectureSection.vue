@@ -18,7 +18,7 @@
     />
 
     <!-- 头部 -->
-    <div class="absolute z-10" style="left: 3.33%; top: 2.83%; width: 97.08%;">
+    <div class="absolute z-10" style="left: 3.33%; top: 15%; width: 97.08%;">
       <div class="flex items-center" style="height: clamp(48px, 4.44vh, 64px);">
         <!-- 图标容器 -->
         <div
@@ -46,7 +46,7 @@
     </div>
 
     <!-- 图例 -->
-    <div class="absolute z-10 flex flex-col" style="left: 75%; top: 12%; width: 20%;">
+    <div class="absolute z-10 flex flex-col" style="left: 75%; top: 15%; width: 20%;">
       <!-- 不可访问 -->
       <div class="flex items-center gap-2" style="height: clamp(28px, 2.95vh, 43px);">
         <span class="rounded-full bg-[#e63946] shrink-0" style="width: clamp(7px, 0.49vw, 10px); height: clamp(8px, 0.83vw, 12px);"></span>
@@ -105,27 +105,27 @@
 
     <!-- 6 张子服卡片 -->
     <!-- 登录服 -->
-    <div class="absolute z-0" style="left: 40%; top: 8%; width: clamp(180px, 20vw, 288px);">
+    <div class="absolute z-0" style="left: 40%; top: 13%; width: clamp(180px, 20vw, 288px);">
       <ServerCard name="登录服" id="login" role="用于账号管理和反压测的服务器" :port="1234" show-port status="offline" :status-icon-src="loginIcon" style="width: 100%" />
     </div>
     <!-- 主城服 -->
-    <div class="absolute z-1" style="left: 40%; top: 35%; width: clamp(180px, 20vw, 288px);">
+    <div class="absolute z-1" style="left: 40%; top: 40%; width: clamp(180px, 20vw, 288px);">
       <ServerCard name="主城服" id="hub" role="跳转各子服的中转站" :port="25565" show-port status="online" :status-icon-src="hubIcon" style="width: 100%" />
     </div>
     <!-- 生存服 -->
-    <div class="absolute z-4" style="left: 5%; top: 60%; width: clamp(180px, 20vw, 288px);">
+    <div class="absolute z-4" style="left: 5%; top: 70%; width: clamp(180px, 20vw, 288px);">
       <ServerCard name="生存服" id="survival" role="原版生存 1.20.x" :port="25566" show-port status="online" :status-icon-src="survivalIcon" style="width: 100%" />
     </div>
     <!-- 创造服 -->
-    <div class="absolute z-7" style="left: 30%; top: 60%; width: clamp(180px, 20vw, 288px);">
+    <div class="absolute z-7" style="left: 30%; top: 70%; width: clamp(180px, 20vw, 288px);">
       <ServerCard name="创造服" id="creative" role="无限创造 建筑孵化" :port="25567" show-port status="online" :status-icon-src="creativeIcon" style="width: 100%" />
     </div>
     <!-- 小游戏服 -->
-    <div class="absolute z-8" style="left: 53.89%; top: 60%; width: clamp(180px, 20vw, 288px);">
+    <div class="absolute z-8" style="left: 53.89%; top: 70%; width: clamp(180px, 20vw, 288px);">
       <ServerCard name="小游戏服" id="minigame" role="内含数十款自制小游戏" :port="25568" show-port status="online" :status-icon-src="minigameIcon" style="width: 100%" />
     </div>
     <!-- 归档服 -->
-    <div class="absolute z-9" style="left: 76.74%; top: 60%; width: clamp(180px, 20vw, 288px);">
+    <div class="absolute z-9" style="left: 76.74%; top: 70%; width: clamp(180px, 20vw, 288px);">
       <ServerCard name="归档服" id="archived" role="老玩家可以进入" :port="25569" show-port status="archived" :status-icon-src="archivedIcon" style="width: 100%" />
     </div>
 

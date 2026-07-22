@@ -10,7 +10,7 @@
       style="width: clamp(280px, 33.33vw, 480px)"
     >
       <ServerAddressBar
-        address="play.redstarcity.net"
+        address="mc.redstarmc.top"
         label="服务器地址"
         style="width: 100%"
       />
@@ -98,7 +98,7 @@
               height: 'clamp(28px, 2.64vw, 42px)',
               width: 'clamp(72px, 6.94vw, 110px)',
               paddingLeft: 'clamp(10px, 1.18vw, 20px)',
-              animationDelay: mode.value === 'initial' ? `${0.4 + i * 0.1}s` : '0s',
+              animationDelay: mode === 'initial' ? `${0.4 + i * 0.1}s` : '0s',
             }"
           >
 

@@ -62,7 +62,7 @@ const isScrolling = ref(false)
 // 把当前 section 的 id 算出来给导航栏用
 // footer 区域在导航里不存在，所以映射为 staff
 const navActiveId = computed(() => {
-  const id = sections[currentSection.value]
+  const id = sections[currentSection.value] ?? 'hero'
   return id === 'footer' ? 'staff' : id
 })
 
@@ -70,19 +70,21 @@ const SCROLL_COOLDOWN = 300 // ms，缩短冷却时间
 
 // 计算某 section 在 container 内的 scrollTop
 function getSectionScrollTop(index: number): number {
-  const el = document.getElementById(sections[index])
+  const id = sections[index]
+  if (!id) return 0
+  const el = document.getElementById(id)
   const container = containerRef.value
   if (!el || !container) return 0
-  return el.offsetTop - (container as HTMLElement).offsetTop
+  return el.offsetTop - container.offsetTop
 }
 
 function scrollToSection(index: number) {
   if (isScrolling.value) return
   if (index < 0 || index >= sections.length) return
-  
+
   isScrolling.value = true
   currentSection.value = index
-  
+
   const container = containerRef.value
   if (container) {
     ;(container as HTMLElement).scrollTo({
@@ -90,7 +92,7 @@ function scrollToSection(index: number) {
       behavior: 'smooth'
     })
   }
-  
+
   setTimeout(() => {
     isScrolling.value = false
   }, SCROLL_COOLDOWN)
@@ -152,15 +154,21 @@ function handleKeydown(e: KeyboardEvent) {
 
 // Touch 事件处理（移动端）
 let touchStartY = 0
+
 function handleTouchStart(e: TouchEvent) {
-  touchStartY = e.touches[0].clientY
+  const touch = e.touches[0]
+  if (touch) {
+    touchStartY = touch.clientY
+  }
 }
+
 function handleTouchEnd(e: TouchEvent) {
   if (isScrolling.value) return
-  const touchEndY = e.changedTouches[0].clientY
-  const diff = touchStartY - touchEndY
-  
-  if (Math.abs(diff) > 80) { // 增加触摸阈值，减少误触
+  const touch = e.changedTouches[0]
+  if (!touch) return
+  const diff = touchStartY - touch.clientY
+
+  if (Math.abs(diff) > 80) {
     if (diff > 0) {
       scrollToNext()
     } else {

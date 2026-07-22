@@ -42,7 +42,7 @@
       </p>
 
       <!-- 底部按钮行 -->
-      <div class="relative flex items-center" style="margin: clamp(7px, 0.49vw, 7px) clamp(16px, 1.67vw, 24px) clamp(16px, 1.67vw, 24px) 0; height: clamp(38px, 3.68vh, 53px);">
+      <div class="relative flex items-center" style="left: 75%; margin: clamp(7px, 0.49vw, 7px) clamp(16px, 1.67vw, 24px) clamp(16px, 1.67vw, 24px) 0; height: clamp(38px, 3.68vh, 53px);">
         <span class="absolute left-0 top-0 h-px bg-white/10" :style="{ right: 'clamp(150px, 18.61vw, 268px)' }"></span>
         <a
             href="https://wiki.redstarmc.top"
@@ -163,7 +163,7 @@
               {{ news.badge }}
             </span>
             <span class="font-noto text-white/40" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem);">{{ news.date }}</span>
-            <a href="#" class="ml-auto flex items-center gap-1 font-noto text-white/60 hover:text-white" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem);">
+            <a href="https://wiki.redstarmc.top/news" class="ml-auto flex items-center gap-1 font-noto text-white/60 hover:text-white" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem);">
               <span>阅读更多</span>
               <img :src="readMoreIcon" alt="arrow" class="h-3 w-3" />
             </a>
@@ -175,7 +175,7 @@
 
         <!-- 更多新闻 -->
         <div class="mt-auto flex items-center border-t border-white/7" style="padding: clamp(6px, 0.42vw, 8px) clamp(12px, 0.83vw, 16px);">
-          <a href="#" class="ml-auto flex items-center gap-1 font-outfit font-medium text-brand-red" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem);">
+          <a href="https://wiki.redstarmc.top/news" class="ml-auto flex items-center gap-1 font-outfit font-medium text-brand-red" style="font-size: clamp(0.625rem, 0.83vw, 0.75rem);">
             <span>更多新闻</span>
             <img :src="moreNewsIcon" alt="arrow" class="h-3 w-3" />
           </a>
